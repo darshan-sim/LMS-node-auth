@@ -19,7 +19,10 @@ export const verifyJWT = (
 	}
 
 	try {
-		const decoded = jwt.verify(token, process.env.SECRETE_KEY!) as {
+		const decoded = jwt.verify(
+			token,
+			process.env.SECRETE_KEY || "secret-key"
+		) as {
 			id: string;
 			type: string;
 		};

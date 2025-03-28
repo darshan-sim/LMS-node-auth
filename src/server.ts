@@ -13,8 +13,9 @@ app.use("/api/auth", authRoute);
 
 app.use("/api/user", userRoute);
 
-app.use("/", (req:Request, res: Response)=> {
-    res.status(200).send("Server Running")
+app.use("/", (req: Request, res: Response) => {
+	res.status(200).send("Server Running");
+	return;
 });
 
 app.listen(process.env.PORT || 3000, () => {
