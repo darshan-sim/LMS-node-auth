@@ -1,7 +1,7 @@
 export enum UserType {
-	ADMIN,
-	MANAGER,
-	USER
+	Admin = "admin",
+	User = "user",
+	Manager = "manager"
 }
 
 export class User {

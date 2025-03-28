@@ -14,3 +14,4 @@ export const convertToUser = (
 		type: user.type
 	};
 };
+
