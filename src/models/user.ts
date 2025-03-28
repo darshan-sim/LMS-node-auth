@@ -30,8 +30,8 @@ export class User {
 		User.users.push(this);
 		return length - User.users.length;
 	}
-	static deleteById(id: string):number {
-		const length = User.users.length
+	static deleteById(id: string): number {
+		const length = User.users.length;
 		User.users = User.users.filter((user) => user.id !== id);
 		return length - User.users.length;
 	}
@@ -39,7 +39,7 @@ export class User {
 		const user = User.findById(updatedUser.id);
 		if (user) {
 			user.type = updatedUser.type;
-			return user
+			return user;
 		}
 	}
 	static findByUsername(username: string) {

@@ -29,7 +29,11 @@ export class AuthService {
 		if (!passwordMatch) {
 			throw new Error("Invalid credentials");
 		}
-		const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: "1h" });
+		console.log(user);
+		const token = jwt.sign({ userId: user.id, type: user.type }, secretKey, {
+			expiresIn: "1h"
+		});
+
 		return { message: "User Login successfully", token };
 	}
 }
