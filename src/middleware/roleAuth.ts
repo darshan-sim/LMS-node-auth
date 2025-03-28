@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 
 export const authorizedRoles = (...allowedRoles: string[]) => {
-	return (req: Request, res: Response, next: NextFunction):void => {
+	return (req: Request, res: Response, next: NextFunction): void => {
 		const user = (req as any).user as { id: string; type: string } | undefined;
 		if (!user) {
 			res.status(401).json({ message: "Unauthorized" });
 			return;
 		}
-		console.log(user);
 		if (!allowedRoles.includes(user.type)) {
 			// return res
 			// 	.status(403)
@@ -23,7 +22,6 @@ export const authorizeSelfOrRole = (...allowedRoles: string[]) => {
 	return (req: Request, res: Response, next: NextFunction): void => {
 		const user = (req as any).user as { id: string; type: string } | undefined;
 		const { id } = req.params;
-		console.log(user);
 		if (!user) {
 			res.status(401).json({ message: "Unauthorized" });
 			return;
