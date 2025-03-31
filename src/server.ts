@@ -4,9 +4,12 @@ import authRoute from "./routes/auth";
 import userRoute from "./routes/user";
 
 dotenv.config();
-
+const cors = require("cors");
+const helmet = require("helmet");
 const app = express();
 
+app.use(cors());
+app.use(helmet());
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
