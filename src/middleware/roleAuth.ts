@@ -7,10 +7,7 @@ export const authorizedRoles = (...allowedRoles: string[]) => {
 			res.status(401).json({ message: "Unauthorized" });
 			return;
 		}
-		if (!allowedRoles.includes(user.type)) {
-			// return res
-			// 	.status(403)
-			// 	.send({ message: "Forbidden: Insufficient privileges" });
+		if (!allowedRoles.includes(user.type.toUpperCase())) {
 			res.status(403).json({ message: "Forbidden: Insufficient privileges" });
 			return;
 		}
@@ -26,7 +23,7 @@ export const authorizeSelfOrRole = (...allowedRoles: string[]) => {
 			res.status(401).json({ message: "Unauthorized" });
 			return;
 		}
-		if (allowedRoles.includes(user.type) || user.id === id) {
+		if (allowedRoles.includes(user.type.toUpperCase()) || user.id === id) {
 			next();
 			return;
 		}

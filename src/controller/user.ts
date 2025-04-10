@@ -1,50 +1,59 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/user";
+import { successResponse } from "../utils/apiResponse";
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	try {
 		const id = req.params.id;
-		const response = UserService.getUser(id);
-		res.status(200).send({ response });
-		return;
+		const { message, user } = UserService.getUser(id);
+		res.status(200).json(successResponse(message, { user }));
 	} catch (error) {
-		res.status(500).send({ Error: (error as any).message || "Server Down" });
-		return;
+		next(error);
 	}
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	try {
-		const response = UserService.getAllUsers();
-		res.status(200).send({ response });
-		return;
+		const { message, users } = UserService.getAllUsers();
+		res.status(200).json(successResponse(message, { users }));
 	} catch (error) {
-		res.status(500).send({ Error: (error as any).message || "Server Down" });
-		return;
+		next(error);
 	}
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	try {
 		const id = req.params.id;
-		UserService.deleteUser(id);
-		res.status(200).send({ message: "User deleted" });
-		return;
+		const { message } = UserService.deleteUser(id);
+		res.status(200).json(successResponse(message, {}));
 	} catch (error) {
-		res.status(500).send({ Error: (error as any).message || "Server Down" });
-		return;
+		next(error);
 	}
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	try {
 		const id = req.params.id;
 		const { type } = req.body;
-		const response = UserService.updateUser(id, type);
-		res.status(200).send({ response });
-		return;
+		const { message, user } = UserService.updateUser(id, type);
+		res.status(200).json(successResponse(message, { user }));
 	} catch (error) {
-		res.status(500).send({ Error: (error as any).message || "Server Down" });
-		return;
+		next(error);
 	}
 };

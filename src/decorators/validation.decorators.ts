@@ -2,6 +2,7 @@ export interface ValidationRule {
 	required?: boolean;
 	minLength?: number;
 	maxLength?: number;
+	confirmedPassword?: string;
 	allowedValues?: any[];
 }
 
@@ -34,6 +35,12 @@ export function MinLength(length: number) {
 export function MaxLength(length: number) {
 	return function (target: any, propKey: string) {
 		addValidationMetadata(target, propKey, { maxLength: length });
+	};
+}
+
+export function ConfirmedPassword(fieldToMatch: string) {
+	return function (target: any, propKey: string) {
+		addValidationMetadata(target, propKey, { confirmedPassword: fieldToMatch });
 	};
 }
 

@@ -1,7 +1,7 @@
 import express from "express";
 import { getUser, getAllUsers, deleteUser, updateUser } from "../controller/user";
-import { verifyJWT } from "../middleware/auth";
-import { authorizedRoles, authorizeSelfOrRole } from "../middleware/roleAuth";
+import { verifyJWT } from "../middleware/auth.moddleware";
+import { authorizedRoles, authorizeSelfOrRole } from "../middleware/roleAuth.middleware";
 
 const router = express.Router();
 

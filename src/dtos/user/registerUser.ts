@@ -1,9 +1,8 @@
 import {
 	Require,
 	MinLength,
-	Values
+	ConfirmedPassword
 } from "../../decorators/validation.decorators";
-import { UserType } from "../../models/user";
 
 export class RegisterUserDTO {
 	@Require()
@@ -15,6 +14,9 @@ export class RegisterUserDTO {
 	password!: string;
 
 	@Require()
-	@Values(UserType)
+	@MinLength(3)
+	@ConfirmedPassword("password")
+	confirmedPassword!: string;
+
 	type!: string;
 }

@@ -26,9 +26,8 @@ export class User {
 	}
 	add() {
 		const length = User.users.length;
-		// User.users = User.users.filter((user) => user.id !== id);
 		User.users.push(this);
-		return length - User.users.length;
+		return User.users.length - length;
 	}
 	static deleteById(id: string): number {
 		const length = User.users.length;

@@ -1,45 +1,43 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AuthService } from "../services/auth";
 import { RegisterUserDTO } from "../dtos/user/registerUser";
 import { validateDTO } from "../utils/validateDTO";
+import { AppError } from "../errors/AppError";
+import { successResponse } from "../utils/apiResponse";
 
 export const registerUser = async (
 	req: Request,
-	res: Response
+	res: Response,
+	next: NextFunction
 ): Promise<void> => {
 	try {
 		const dto = Object.assign(new RegisterUserDTO(), req.body);
 		const errors = validateDTO(dto);
 		if (errors.length > 0) {
-			res.status(400).json({ message: "Validation failed", errors });
-			return;
+			throw new AppError("Validation failed", 400, errors);
 		}
 		const { username, password, type } = dto;
-		const response = await AuthService.register(username, password, type);
-		res.status(201).send(response);
+		const {user} = await AuthService.register(username, password, type);
+		res
+			.status(201)
+			.json(successResponse("User registered successfully", {user}));
 		return;
 	} catch (error) {
-		res.status(500).send({
-			message: `Error while registering user ${(error as any).message}`
-		});
-		return;
+		next(error);
 	}
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { username, password } = req.body;
-		const response = await AuthService.login(
+		const {token} = await AuthService.login(
 			username,
 			password,
 			process.env.SECRETE_KEY || "secret-key"
 		);
-		res.status(201).send(response);
+		res.status(201).json(successResponse("User Login successfully", { token }));
 		return;
 	} catch (error) {
-		res
-			.status(500)
-			.send({ message: `Error while login ${(error as any).message}` });
-		return;
+		next(error)
 	}
 };
